@@ -20,7 +20,19 @@ class Query
      */
     public function __construct(array $query = [])
     {
-        $this->builder = new Builder($query);
+        $this->builder = $this->setup(new Builder($query));
+    }
+
+    /**
+     * Setup the intiial query.
+     *
+     * @param  Builder $builder
+     *
+     * @return Builder
+     */
+    public function setup(Builder $builder): Builder
+    {
+        return $builder;
     }
 
     /**
@@ -29,25 +41,23 @@ class Query
      * @param  string $method
      * @param  array  $arguments
      *
-     * @return Query
+     * @return mixed
      */
-    public static function __callStatic(string $method, array $arguments): Query
+    public static function __callStatic(string $method, array $arguments)
     {
         return (new static)->{$method}(...$arguments);
     }
 
     /**
-     * Handle dynamic method calls.
+     * Proxy dynamic method calls to the query builder.
      *
      * @param  string $method
      * @param  array  $arguments
      *
-     * @return Query
+     * @return mixed
      */
-    public function __call(string $method, array $arguments): Query
+    public function __call(string $method, array $arguments)
     {
-        $this->builder->{$method}(...$arguments);
-
-        return $this;
+        return $this->builder->{$method}(...$arguments);
     }
 }
