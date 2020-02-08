@@ -18,23 +18,83 @@ $ composer require jjgrainger/query
 
 ## Usage
 
+The `Query` class provides a fluent interface for create `WP_Query` in WordPress.
+
 ```php
 use Query\Query;
 
 // Create a new WP_Query for the latest 3 products.
-$query = Query::post_type( 'product' )->posts_per_page( 3 )->get();
+$results = Query::post_type( 'product' )->posts_per_page( 3 )->get();
 
 // The above is the same as...
 $args = [
-    'post_type' => 'post',
+    'post_type'      => 'post',
     'posts_per_page' => 3,
 ];
 
-$query = new \WP_Query( $args );
+$results = new \WP_Query( $args );
+```
+
+### Creating Custom Query Classes
+
+Custom query classes can be created by extending the `Query` class. Custom query classes can encapsulate default parameters which can then be expanded upon with query methods.
+
+For example, a `FeaturedPostsQuery` can be created to return posts with the 'featured' taxonomy term. The default query parameters are defined within the `setup()` method that receives a `Builder` instance.
+
+```php
+use Query\Query;
+use Query\Builder;
+
+class FeaturedPostsQuery extends Query
+{
+    /**
+     * Setup the initial query.
+     *
+     * @param  Builder $builder
+     *
+     * @return Builder
+     */
+    public function setup( Builder $builder ): Builder
+    {
+        // Setup a tax_query for posts with the 'featured' term.
+        $tax_query = [
+            [
+                'taxonomy' => 'featured',
+                'fields'   => 'slugs',
+                'terms'    => [ 'featured' ],
+            ]
+        ];
+
+        return $builder->tax_query( $tax_query );
+    }
+}
+```
+Once the query class is created it can be used through out the project in a vairety of ways.
+
+```php
+use FeaturedPostsQuery as Featured;
+
+// Returns a WP_Query object for posts with the featured term.
+$results = Featured::get();
+
+// Returns a WP_Query object for the latest 3 products with the featured term.
+$results = Featured::post_type( 'products' )->posts_per_page( 3 )->get();
+
+// Queries can be instantiated with an array of additional query arguments.
+$args = [
+    'post_type' => 'products',
+];
+
+// Create a query object.
+$query = new Featured( $args );
+
+// Modify the query and get the WP_Query object.
+$results = $query->posts_per_page( 3 )->get();
 ```
 
 ## Notes
 
+* The library is still in active development and not intended for production use.
 * Licensed under the [MIT License](https://github.com/jjgrainger/wp-posttypes/blob/master/LICENSE)
 * Maintained under the [Semantic Versioning Guide](https://semver.org)
 
