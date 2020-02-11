@@ -13,6 +13,7 @@ trait HasScopes
      * @var array
      */
     private $scopes = [
+        \Query\Scopes\PostStatus::class,
         \Query\Scopes\PostType::class,
         \Query\Scopes\PostsPerPage::class,
         \Query\Scopes\Search::class,
