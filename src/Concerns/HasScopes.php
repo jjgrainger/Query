@@ -14,6 +14,7 @@ trait HasScopes
      */
     private $scopes = [
         \Query\Scopes\PostType::class,
+        \Query\Scopes\PostsPerPage::class,
     ];
 
     /**
