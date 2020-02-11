@@ -3,9 +3,12 @@
 namespace Query;
 
 use Query\Builder;
+use Query\Concerns\HasScopes;
 
 class Query
 {
+    use HasScopes;
+
     /**
      * The Query Builder object.
      *
@@ -30,6 +33,8 @@ class Query
      */
     public function __construct(array $query = [])
     {
+        $this->buildScopes();
+
         $this->builder = $this->setup(new Builder($query));
     }
 
@@ -69,7 +74,7 @@ class Query
     }
 
     /**
-     * Proxy dynamic method calls to the query builder.
+     * Proxy dynamic method calls to the query builder and scopes.
      *
      * @param  string $method
      * @param  array  $arguments
@@ -78,6 +83,12 @@ class Query
      */
     public function __call(string $method, array $arguments)
     {
+        if ($this->hasScope($method)) {
+            $this->builder = $this->callScope($method, array_merge([$this->builder], $arguments));
+
+            return $this;
+        }
+
         $result = $this->builder->{$method}(...$arguments);
 
         if (in_array($method, $this->passThrough)) {
