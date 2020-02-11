@@ -36,6 +36,16 @@ class Query
     }
 
     /**
+     * Get the query builder.
+     *
+     * @return Builder
+     */
+    public function getBuilder()
+    {
+        return $this->builder;
+    }
+
+    /**
      * Handle dynamic static method calls.
      *
      * @param  string $method

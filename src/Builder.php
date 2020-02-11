@@ -24,6 +24,21 @@ class Builder
     }
 
     /**
+     * Set query parameter.
+     *
+     * @param  string $key
+     * @param  mixed  $value
+     *
+     * @return Builder
+     */
+    public function where(string $key, $value)
+    {
+        $this->query[$key] = $value;
+
+        return $this;
+    }
+
+    /**
      * Get the query array.
      *
      * @return array

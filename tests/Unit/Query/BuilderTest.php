@@ -29,4 +29,13 @@ class BuilderTest extends TestCase
 
         $this->assertEquals($query, $builder->getParameters());
     }
+
+    public function test_builder_can_add_parameters_with_where_method()
+    {
+        $builder = new Builder();
+
+        $builder->where('post_type', 'post');
+
+        $this->assertEquals(['post_type' => 'post'], $builder->getParameters());
+    }
 }

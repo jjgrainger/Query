@@ -20,11 +20,17 @@ class QueryTest extends TestCase
         $this->assertInstanceOf(Query::class, $query);
     }
 
+    public function test_query_can_be_instantiated_with_static_call()
+    {
+        $query = Query::where('limit', 10);
+
+        $this->assertInstanceOf(Query::class, $query);
+    }
+
     public function test_query_can_proxy_methods_to_builder()
     {
-        $builder = Query::limit(10);
+        $query = Query::where('limit', 10);
 
-        $this->assertInstanceOf(Builder::class, $builder);
-        $this->assertEquals(['limit' => 10], $builder->getParameters());
+        $this->assertEquals(['limit' => 10], $query->getBuilder()->getParameters());
     }
 }
