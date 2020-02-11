@@ -33,4 +33,12 @@ class QueryTest extends TestCase
 
         $this->assertEquals(['limit' => 10], $query->getBuilder()->getParameters());
     }
+
+    public function test_query_can_be_pass_through_via_builder_methods()
+    {
+        $parameters = Query::where('limit', 10)->getParameters();
+
+        $this->assertNotInstanceOf(Query::class, $parameters);
+        $this->assertEquals(['limit' => 10], $parameters);
+    }
 }

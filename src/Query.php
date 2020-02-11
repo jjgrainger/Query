@@ -7,11 +7,21 @@ use Query\Builder;
 class Query
 {
     /**
-     * Ther Query Builder object.
+     * The Query Builder object.
      *
      * @var Builder
      */
     protected $builder;
+
+    /**
+     * The methods that pass through the query object.
+     *
+     * @var array
+     */
+    protected $passThrough = [
+        'getParameters',
+        'get',
+    ];
 
     /**
      * Constructor.
@@ -68,6 +78,12 @@ class Query
      */
     public function __call(string $method, array $arguments)
     {
-        return $this->builder->{$method}(...$arguments);
+        $result = $this->builder->{$method}(...$arguments);
+
+        if (in_array($method, $this->passThrough)) {
+            return $result;
+        }
+
+        return $this;
     }
 }
