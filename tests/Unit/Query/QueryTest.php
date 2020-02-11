@@ -34,6 +34,19 @@ class QueryTest extends TestCase
         $this->assertEquals(['limit' => 10], $query->getBuilder()->getParameters());
     }
 
+    public function test_query_can_chain_and_proxy_methods_to_builder()
+    {
+        $query = Query::where('limit', 10)->where('post_type', 'post')->where('fields', 'ids');
+
+        $expected = [
+            'limit' => 10,
+            'post_type' => 'post',
+            'fields' => 'ids',
+        ];
+
+        $this->assertEquals($expected, $query->getBuilder()->getParameters());
+    }
+
     public function test_query_can_be_passed_through_via_builder_methods()
     {
         $parameters = Query::where('limit', 10)->getParameters();

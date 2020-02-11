@@ -14,7 +14,7 @@ class PostType implements Scope
      */
     public $aliases = [
         'type',
-        'post_type'
+        'post_type',
     ];
 
     /**

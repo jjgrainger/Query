@@ -22,8 +22,8 @@ class Query
      * @var array
      */
     protected $passThrough = [
-        'getParameters',
         'get',
+        'getParameters',
     ];
 
     /**
