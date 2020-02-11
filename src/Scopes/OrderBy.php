@@ -8,6 +8,15 @@ use Query\Builder;
 class OrderBy implements Scope
 {
     /**
+     * Aliases for the scope.
+     *
+     * @var array
+     */
+    public $aliases = [
+        'order_by',
+    ];
+
+    /**
      * Apply the scope to the query builder.
      *
      * @param  Builder $builder

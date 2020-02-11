@@ -13,6 +13,7 @@ trait HasScopes
      * @var array
      */
     private $scopes = [
+        \Query\Scopes\Order::class,
         \Query\Scopes\OrderBy::class,
         \Query\Scopes\PostStatus::class,
         \Query\Scopes\PostType::class,
