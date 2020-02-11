@@ -15,6 +15,7 @@ trait HasScopes
     private $scopes = [
         \Query\Scopes\Order::class,
         \Query\Scopes\OrderBy::class,
+        \Query\Scopes\Password::class,
         \Query\Scopes\PostStatus::class,
         \Query\Scopes\PostType::class,
         \Query\Scopes\PostsPerPage::class,
