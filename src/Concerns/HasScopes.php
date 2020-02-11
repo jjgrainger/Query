@@ -13,6 +13,7 @@ trait HasScopes
      * @var array
      */
     private $scopes = [
+        \Query\Scopes\Meta::class,
         \Query\Scopes\Order::class,
         \Query\Scopes\OrderBy::class,
         \Query\Scopes\Password::class,

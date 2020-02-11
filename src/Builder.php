@@ -49,6 +49,19 @@ class Builder
     }
 
     /**
+     * Get a specific paramater from the query.
+     *
+     * @param  string $key
+     * @param  mixed  $default
+     *
+     * @return mixed
+     */
+    public function getParameter($key, $default = null)
+    {
+        return isset($this->query[$key]) ? $this->query[$key] : $default;
+    }
+
+    /**
      * Completes the query and returns a \WP_Query object.
      *
      * @return \WP_Query
