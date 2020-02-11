@@ -57,19 +57,4 @@ class Builder
     {
         return new WP_Query($this->getParameters());
     }
-
-    /**
-     * Handle dynamic method calls.
-     *
-     * @param  string $method
-     * @param  array  $arguments
-     *
-     * @return mixed
-     */
-    public function __call(string $method, array $arguments)
-    {
-        $this->query[$method] = array_shift($arguments);
-
-        return $this;
-    }
 }
