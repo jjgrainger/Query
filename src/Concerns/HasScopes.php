@@ -13,6 +13,9 @@ trait HasScopes
      * @var array
      */
     private $scopes = [
+        \Query\Scopes\Author::class,
+        \Query\Scopes\AuthorIn::class,
+        \Query\Scopes\AuthorNotIn::class,
         \Query\Scopes\Meta::class,
         \Query\Scopes\Order::class,
         \Query\Scopes\OrderBy::class,

@@ -8,6 +8,15 @@ use Query\Builder;
 class Meta implements Scope
 {
     /**
+     * Aliases for the scope.
+     *
+     * @var array
+     */
+    public $aliases = [
+        'meta_query',
+    ];
+
+    /**
      * Apply the scope to the query builder.
      *
      * @param  Builder $builder
