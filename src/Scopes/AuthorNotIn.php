@@ -20,7 +20,7 @@ class AuthorNotIn implements Scope
      * Apply the scope to the query builder.
      *
      * @param  Builder $builder
-     * @param  array   $author
+     * @param  array   $authors
      *
      * @return Builder
      */

@@ -21,7 +21,7 @@ class Page implements Scope
      * Apply the scope to the query builder.
      *
      * @param  Builder $builder
-     * @param  mixed   $limit
+     * @param  mixed   $page
      *
      * @return Builder
      */

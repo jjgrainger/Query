@@ -5,7 +5,7 @@ namespace Query\Scopes;
 use Query\Scope;
 use Query\Builder;
 
-class PostNotIn implements Scope
+class ParentIn implements Scope
 {
     /**
      * Aliases for the scope.
@@ -13,19 +13,20 @@ class PostNotIn implements Scope
      * @var array
      */
     public $aliases = [
-        'post__not_in',
+        'postParentIn',
+        'post_parent__in',
     ];
 
     /**
      * Apply the scope to the query builder.
      *
      * @param  Builder $builder
-     * @param  array   $posts
+     * @param  array   $parents
      *
      * @return Builder
      */
-    public function apply(Builder $builder, array $posts = [])
+    public function apply(Builder $builder, array $parents = [])
     {
-        return $builder->where('post__not_in', $posts);
+        return $builder->where('post_parent__in', $parents);
     }
 }

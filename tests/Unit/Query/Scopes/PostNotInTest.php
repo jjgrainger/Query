@@ -10,7 +10,7 @@ class PostNotInTest extends TestCase
     {
         $builder = (new PostNotIn())->apply(new Builder(), [1, 2, 3]);
 
-        $this->assertEquals(['post__in' => [1, 2, 3]], $builder->getParameters());
+        $this->assertEquals(['post__not_in' => [1, 2, 3]], $builder->getParameters());
     }
 
     public function test_scope_returns_builder()

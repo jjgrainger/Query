@@ -20,7 +20,7 @@ class PostIn implements Scope
      * Apply the scope to the query builder.
      *
      * @param  Builder $builder
-     * @param  array   $post
+     * @param  array   $posts
      *
      * @return Builder
      */
