@@ -1,5 +1,6 @@
 {
     "name": "jjgrainger/query",
+    "version": "0.1.0",
     "description": "WordPress Query Builder",
     "type": "library",
     "license": "MIT",
