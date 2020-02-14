@@ -2,7 +2,7 @@
 
 > A fluent interface for creating WordPress Queries
 
-[![Build Status](https://travis-ci.org/jjgrainger/query.svg?branch=master)](https://travis-ci.org/jjgrainger/query) [![Total Downloads](https://poser.pugx.org/jjgrainger/query/downloads)](https://packagist.org/packages/jjgrainger/query) [![Latest Stable Version](https://poser.pugx.org/jjgrainger/query/v/stable)](https://packagist.org/packages/jjgrainger/query) [![License](https://poser.pugx.org/jjgrainger/query/license)](https://packagist.org/packages/jjgrainger/query)
+[![Build Status](https://travis-ci.org/jjgrainger/query.svg?branch=master)](https://travis-ci.org/jjgrainger/query) [![codecov](https://codecov.io/gh/jjgrainger/Query/branch/master/graph/badge.svg)](https://codecov.io/gh/jjgrainger/Query) [![Total Downloads](https://poser.pugx.org/jjgrainger/query/downloads)](https://packagist.org/packages/jjgrainger/query) [![Latest Stable Version](https://poser.pugx.org/jjgrainger/query/v/stable)](https://packagist.org/packages/jjgrainger/query) [![License](https://poser.pugx.org/jjgrainger/query/license)](https://packagist.org/packages/jjgrainger/query)
 
 ## Requirements
 
