@@ -10,7 +10,7 @@ class AuthorNotInTest extends TestCase
     {
         $builder = (new AuthorNotIn())->apply(new Builder(), [1, 2, 3]);
 
-        $this->assertEquals(['author__in' => [1, 2, 3]], $builder->getParameters());
+        $this->assertEquals(['author__not_in' => [1, 2, 3]], $builder->getParameters());
     }
 
     public function test_scope_returns_builder()
