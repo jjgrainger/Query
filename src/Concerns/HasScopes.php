@@ -31,6 +31,7 @@ trait HasScopes
         \Query\Scopes\PostType::class,
         \Query\Scopes\PostsPerPage::class,
         \Query\Scopes\Search::class,
+        \Query\Scopes\Taxonomy::class,
     ];
 
     /**
@@ -87,7 +88,7 @@ trait HasScopes
      *
      * @return string
      */
-    public function getScopeKey(string $scope): string
+    protected function getScopeKey(string $scope): string
     {
         return lcfirst((new ReflectionClass($scope))->getShortName());
     }
