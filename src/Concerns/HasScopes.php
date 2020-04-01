@@ -20,6 +20,7 @@ trait HasScopes
         \Query\Scopes\Meta::class,
         \Query\Scopes\Order::class,
         \Query\Scopes\OrderBy::class,
+        \Query\Scopes\Page::class,
         \Query\Scopes\ParentIn::class,
         \Query\Scopes\ParentNotIn::class,
         \Query\Scopes\Password::class,
