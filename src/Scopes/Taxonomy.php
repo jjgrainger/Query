@@ -22,29 +22,37 @@ class Taxonomy implements Scope
      * @param  Builder $builder
      * @param  string  $taxonomy
      * @param  array   $terms
-     * @param  string  $operator
-     * @param  string  $field
-     * @param  bool    $children
      *
      * @return Builder
      */
     public function apply(
         Builder $builder,
-        string $taxonomy = '',
-        $terms = [],
-        string $operator = 'IN',
-        string $field = 'term_id',
-        bool $children = true
+        $taxonomy = null,
+        $terms = []
     ) {
+        // Get the tax query array.
         $taxQuery = $builder->getParameter('tax_query', []);
 
-        $taxQuery[] = [
-            'taxonomy' => $taxonomy,
-            'terms' => $terms,
-            'field' => $field,
-            'operator' => $operator,
-            'include_children' => $children,
-        ];
+        if (is_array($taxonomy)) {
+            $taxQuery[] = $taxonomy;
+
+            return $builder->where('tax_query', $taxQuery);
+        }
+
+        // Setup a new tax query clause array.
+        $clause = [];
+
+        // Setup the
+        $clause['taxonomy'] = $taxonomy;
+        $clause['terms'] = (array) $terms;
+
+        // If terms are strings assume they are slugs.
+        if (is_string($clause['terms'][0])) {
+            $clause['field'] = 'slug';
+        }
+
+        // Append the new tax query.
+        $taxQuery[] = $clause;
 
         return $builder->where('tax_query', $taxQuery);
     }
