@@ -20,21 +20,40 @@ class Meta implements Scope
      * Apply the scope to the query builder.
      *
      * @param  Builder $builder
-     * @param  mixed  $key
-     * @param  mixed  $order
+     * @param  string  $key
+     * @param  string  $compare
+     * @param  mixed   $value
+     * @param  string  $type
      *
      * @return Builder
      */
-    public function apply(Builder $builder, $key = '', $compare = '=', $value = '', $type = 'CHAR')
+    public function apply(Builder $builder, $key = '', $compare = '=', $value = '', $type = false)
     {
         $metaQuery = $builder->getParameter('meta_query', []);
 
-        $metaQuery[] = [
-            'key' => $key,
-            'value' => $value,
-            'compare' => $compare,
-            'type' => $type,
-        ];
+        if (is_array($key)) {
+            $metaQuery[] = $key;
+
+            return $builder->where('meta_query', $metaQuery);
+        }
+
+        $clause = [];
+
+        $clause['key'] = $key;
+
+        // If only key and compare were passed, assume compare is the value.
+        if (3 === func_num_args()) {
+            $clause['value'] = $compare;
+        } else {
+            $clause['value'] = $value;
+            $clause['compare'] = $compare;
+
+            if (!empty($type)) {
+                $clause['type'] = $type;
+            }
+        }
+
+        $metaQuery[] = $clause;
 
         return $builder->where('meta_query', $metaQuery);
     }
