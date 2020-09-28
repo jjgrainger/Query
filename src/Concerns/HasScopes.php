@@ -3,38 +3,11 @@
 namespace Query\Concerns;
 
 use Query\Scope;
+use Query\Builder;
 use ReflectionClass;
 
 trait HasScopes
 {
-    /**
-     * Array of scope classes.
-     *
-     * @var array
-     */
-    private $scopes = [
-        \Query\Scopes\Author::class,
-        \Query\Scopes\AuthorIn::class,
-        \Query\Scopes\AuthorNotIn::class,
-        \Query\Scopes\Comments::class,
-        \Query\Scopes\Meta::class,
-        \Query\Scopes\Order::class,
-        \Query\Scopes\OrderBy::class,
-        \Query\Scopes\Page::class,
-        \Query\Scopes\ParentIn::class,
-        \Query\Scopes\ParentNotIn::class,
-        \Query\Scopes\Password::class,
-        \Query\Scopes\Post::class,
-        \Query\Scopes\PostIn::class,
-        \Query\Scopes\PostNotIn::class,
-        \Query\Scopes\PostParent::class,
-        \Query\Scopes\PostStatus::class,
-        \Query\Scopes\PostType::class,
-        \Query\Scopes\PostsPerPage::class,
-        \Query\Scopes\Search::class,
-        \Query\Scopes\Taxonomy::class,
-    ];
-
     /**
      * The available scope objects.
      *
@@ -54,9 +27,9 @@ trait HasScopes
      *
      * @return void
      */
-    protected function buildScopes()
+    protected function buildScopes(array $scopes)
     {
-        array_walk($this->scopes, [$this, 'setupScope']);
+        array_walk($scopes, [$this, 'setupScope']);
     }
 
     /**
@@ -99,7 +72,7 @@ trait HasScopes
      *
      * @return array
      */
-    protected function getScopeAliases(Scope $scope)
+    protected function getScopeAliases(Scope $scope): array
     {
         return empty($scope->aliases) ? [] : $scope->aliases;
     }
@@ -134,7 +107,7 @@ trait HasScopes
      *
      * @return Builder
      */
-    protected function callScope(string $scope, array $arguments = [])
+    protected function callScope(string $scope, array $arguments = []): Builder
     {
         return call_user_func_array([$this->resolveScope($scope), 'apply'], $arguments);
     }
