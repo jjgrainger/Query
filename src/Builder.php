@@ -24,6 +24,21 @@ class Builder
     }
 
     /**
+     * Set query parameter.
+     *
+     * @param  string $key
+     * @param  mixed  $value
+     *
+     * @return Builder
+     */
+    public function where(string $key, $value)
+    {
+        $this->query[$key] = $value;
+
+        return $this;
+    }
+
+    /**
      * Get the query array.
      *
      * @return array
@@ -34,6 +49,19 @@ class Builder
     }
 
     /**
+     * Get a specific paramater from the query.
+     *
+     * @param  string $key
+     * @param  mixed  $default
+     *
+     * @return mixed
+     */
+    public function getParameter($key, $default = null)
+    {
+        return isset($this->query[$key]) ? $this->query[$key] : $default;
+    }
+
+    /**
      * Completes the query and returns a \WP_Query object.
      *
      * @return \WP_Query
@@ -41,20 +69,5 @@ class Builder
     public function get(): WP_Query
     {
         return new WP_Query($this->getParameters());
-    }
-
-    /**
-     * Handle dynamic method calls.
-     *
-     * @param  string $method
-     * @param  array  $arguments
-     *
-     * @return mixed
-     */
-    public function __call(string $method, array $arguments)
-    {
-        $this->query[$method] = array_shift($arguments);
-
-        return $this;
     }
 }

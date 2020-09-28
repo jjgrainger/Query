@@ -28,7 +28,7 @@ $results = Query::post_type( 'product' )->posts_per_page( 3 )->get();
 
 // The above is the same as...
 $args = [
-    'post_type'      => 'post',
+    'post_type'      => 'product',
     'posts_per_page' => 3,
 ];
 
@@ -57,15 +57,13 @@ class FeaturedPostsQuery extends Query
     public function setup( Builder $builder ): Builder
     {
         // Setup a tax_query for posts with the 'featured' term.
-        $tax_query = [
-            [
-                'taxonomy' => 'featured',
-                'fields'   => 'slugs',
-                'terms'    => [ 'featured' ],
-            ]
+        $featured = [
+            'taxonomy' => 'featured',
+            'fields'   => 'slugs',
+            'terms'    => [ 'featured' ],
         ];
 
-        return $builder->tax_query( $tax_query );
+        return $builder->taxonomy( $featured );
     }
 }
 ```
@@ -78,7 +76,7 @@ use FeaturedPostsQuery as Featured;
 $results = Featured::get();
 
 // Returns a WP_Query object for the latest 3 products with the featured term.
-$results = Featured::post_type( 'products' )->posts_per_page( 3 )->get();
+$results = Featured::type( 'products' )->limit( 3 )->get();
 
 // Queries can be instantiated with an array of additional query arguments.
 $args = [
@@ -89,7 +87,7 @@ $args = [
 $query = new Featured( $args );
 
 // Modify the query and get the WP_Query object.
-$results = $query->posts_per_page( 3 )->get();
+$results = $query->limit( 3 )->get();
 ```
 
 ## Notes

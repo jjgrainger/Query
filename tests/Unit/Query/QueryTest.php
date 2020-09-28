@@ -20,11 +20,38 @@ class QueryTest extends TestCase
         $this->assertInstanceOf(Query::class, $query);
     }
 
+    public function test_query_can_be_instantiated_with_static_call()
+    {
+        $query = Query::where('limit', 10);
+
+        $this->assertInstanceOf(Query::class, $query);
+    }
+
     public function test_query_can_proxy_methods_to_builder()
     {
-        $builder = Query::limit(10);
+        $query = Query::where('limit', 10);
 
-        $this->assertInstanceOf(Builder::class, $builder);
-        $this->assertEquals(['limit' => 10], $builder->getParameters());
+        $this->assertEquals(['limit' => 10], $query->getBuilder()->getParameters());
+    }
+
+    public function test_query_can_chain_and_proxy_methods_to_builder()
+    {
+        $query = Query::where('limit', 10)->where('post_type', 'post')->where('fields', 'ids');
+
+        $expected = [
+            'limit' => 10,
+            'post_type' => 'post',
+            'fields' => 'ids',
+        ];
+
+        $this->assertEquals($expected, $query->getBuilder()->getParameters());
+    }
+
+    public function test_query_can_be_passed_through_via_builder_methods()
+    {
+        $parameters = Query::where('limit', 10)->getParameters();
+
+        $this->assertNotInstanceOf(Query::class, $parameters);
+        $this->assertEquals(['limit' => 10], $parameters);
     }
 }
