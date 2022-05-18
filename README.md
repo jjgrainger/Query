@@ -2,7 +2,7 @@
 
 > A fluent interface for creating WordPress Queries
 
-[![Build Status](https://travis-ci.org/jjgrainger/query.svg?branch=master)](https://travis-ci.org/jjgrainger/query) [![codecov](https://codecov.io/gh/jjgrainger/Query/branch/master/graph/badge.svg)](https://codecov.io/gh/jjgrainger/Query) [![Total Downloads](https://poser.pugx.org/jjgrainger/query/downloads)](https://packagist.org/packages/jjgrainger/query) [![Latest Stable Version](https://poser.pugx.org/jjgrainger/query/v/stable)](https://packagist.org/packages/jjgrainger/query) [![License](https://poser.pugx.org/jjgrainger/query/license)](https://packagist.org/packages/jjgrainger/query)
+[![tests](https://github.com/jjgrainger/Query/actions/workflows/tests.yml/badge.svg)](https://github.com/jjgrainger/Query/actions/workflows/tests.yml) [![codecov](https://codecov.io/gh/jjgrainger/Query/branch/master/graph/badge.svg)](https://codecov.io/gh/jjgrainger/Query) [![Total Downloads](https://poser.pugx.org/jjgrainger/query/downloads)](https://packagist.org/packages/jjgrainger/query) [![Latest Stable Version](https://poser.pugx.org/jjgrainger/query/v/stable)](https://packagist.org/packages/jjgrainger/query) [![License](https://poser.pugx.org/jjgrainger/query/license)](https://packagist.org/packages/jjgrainger/query)
 
 ## Requirements
 
@@ -93,7 +93,7 @@ $results = $query->limit( 3 )->get();
 ## Notes
 
 * The library is still in active development and not intended for production use.
-* Licensed under the [MIT License](https://github.com/jjgrainger/wp-posttypes/blob/master/LICENSE)
+* Licensed under the [MIT License](https://github.com/jjgrainger/Query/blob/master/LICENSE)
 * Maintained under the [Semantic Versioning Guide](https://semver.org)
 
 ## Author
