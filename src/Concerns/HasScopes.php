@@ -42,6 +42,16 @@ trait HasScopes
     }
 
     /**
+     * Boot scopes to Query.
+     *
+     * @return void
+     */
+    protected function bootHasScopes()
+    {
+        $this->buildScopes(static::$scopes);
+    }
+
+    /**
      * Setup scopes.
      *
      * @return void

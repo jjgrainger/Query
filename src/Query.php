@@ -3,11 +3,13 @@
 namespace Query;
 
 use Query\Builder;
+use Query\Concerns\BootsTraits;
 use Query\Concerns\HasScopes;
+use Query\Concerns\QueriesPosts;
 
 class Query
 {
-    use HasScopes;
+    use BootsTraits, HasScopes, QueriesPosts;
 
     /**
      * The Query Builder object.
@@ -33,8 +35,10 @@ class Query
      */
     public function __construct(array $query = [])
     {
-        $this->buildScopes(static::$scopes);
+        // Boot traits.
+        $this->bootTraits();
 
+        // Setup the Builder instances.
         $this->builder = $this->setup(new Builder($query));
     }
 
