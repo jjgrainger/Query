@@ -9,6 +9,13 @@ use ReflectionClass;
 trait HasScopes
 {
     /**
+     * Scopes added to the Query.
+     *
+     * @var array
+     */
+    private static $scopes = [];
+
+    /**
      * The available scope objects.
      *
      * @var array
@@ -21,6 +28,18 @@ trait HasScopes
      * @var array
      */
     private $aliases = [];
+
+    /**
+     * Add a scope to the Query.
+     *
+     * @param \Query\Scope|string $scope
+     *
+     * @return void
+     */
+    public static function addScope($scope)
+    {
+        static::$scopes[] = $scope;
+    }
 
     /**
      * Setup scopes.
