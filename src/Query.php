@@ -38,6 +38,9 @@ class Query
         // Boot traits.
         $this->bootTraits();
 
+        // Build scopes.
+        $this->buildScopes();
+
         // Setup the Builder instances.
         $this->builder = $this->setup(new Builder($query));
     }

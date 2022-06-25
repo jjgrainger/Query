@@ -4,6 +4,7 @@ namespace Query\Concerns;
 
 use Query\Scope;
 use Query\Builder;
+use Closure;
 use ReflectionClass;
 
 trait HasScopes
@@ -32,23 +33,30 @@ trait HasScopes
     /**
      * Add a scope to the Query.
      *
-     * @param \Query\Scope|string $scope
+     * @param  \Query\Scope|\Closure|string $scope
+     * @param  \Query\Scope|\Closure|null   $implementation
      *
      * @return void
      */
-    public static function addScope($scope)
+    public static function addScope($scope, $implementation = null)
     {
-        static::$scopes[] = $scope;
+        if (is_string($scope) && $implementation instanceof Closure) {
+            static::$scopes[$scope] = $implementation;
+        } elseif ($scope instanceof Scope) {
+            static::$scopes[static::getScopeKey($scope)] = $scope;
+        }
     }
 
     /**
-     * Boot scopes to Query.
+     * Get the scope key, classname with first letter lowercase.
      *
-     * @return void
+     * @param  Scope $scope
+     *
+     * @return string
      */
-    protected function bootHasScopes()
+    protected static function getScopeKey(Scope $scope): string
     {
-        $this->buildScopes(static::$scopes);
+        return lcfirst((new ReflectionClass($scope))->getShortName());
     }
 
     /**
@@ -56,44 +64,36 @@ trait HasScopes
      *
      * @return void
      */
-    protected function buildScopes(array $scopes)
+    protected function buildScopes()
     {
-        array_walk($scopes, [$this, 'setupScope']);
+        foreach (static::$scopes as $scope => $implementation) {
+            $this->setupScope($scope, $implementation);
+        }
     }
 
     /**
      * Setup each individual scope.
      *
-     * @param  string $scope
+     * @param  string               $scope
+     * @param  Query\Scope|\Closure $implementation
      *
      * @return void
      */
-    protected function setupScope(string $scope)
+    protected function setupScope(string $scope, $implementation)
     {
-        // Create scope key from class name.
-        $key = $this->getScopeKey($scope);
+        if ($implementation instanceof Scope) {
+            // Instantiate and add available scope.
+            $this->available[$scope] = new $implementation;
 
-        // Instantiate and add available scope.
-        $this->available[$key] = new $scope;
+            // Add scopes aliases.
+            $aliases = $this->getScopeAliases($this->available[$scope]);
 
-        // Add scopes aliases.
-        $aliases = $this->getScopeAliases($this->available[$key]);
-
-        foreach ($aliases as $alias) {
-            $this->aliases[$alias] = $key;
+            foreach ($aliases as $alias) {
+                $this->aliases[$alias] = $scope;
+            }
+        } else {
+            $this->available[$scope] = $implementation;
         }
-    }
-
-    /**
-     * Get the scope key, classname with first letter lowercase.
-     *
-     * @param  string $scope
-     *
-     * @return string
-     */
-    protected function getScopeKey(string $scope): string
-    {
-        return lcfirst((new ReflectionClass($scope))->getShortName());
     }
 
     /**
@@ -138,7 +138,7 @@ trait HasScopes
      */
     protected function callScope(string $scope, array $arguments = []): Builder
     {
-        return call_user_func_array([$this->resolveScope($scope), 'apply'], $arguments);
+        return call_user_func_array($this->resolveScope($scope), $arguments);
     }
 
     /**
@@ -155,6 +155,12 @@ trait HasScopes
             $scope = $this->aliases[$scope];
         }
 
-        return $this->available[$scope];
+        $callable = $this->available[$scope];
+
+        if ($callable instanceof Scope) {
+            return [$callable, 'apply'];
+        }
+
+        return $callable;
     }
 }
