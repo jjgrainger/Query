@@ -57,13 +57,15 @@ class FeaturedPostsQuery extends Query
     public function setup( Builder $builder ): Builder
     {
         // Setup a tax_query for posts with the 'featured' term.
-        $featured = [
-            'taxonomy' => 'featured',
-            'fields'   => 'slugs',
-            'terms'    => [ 'featured' ],
+        $tax_query = [
+            [
+                'taxonomy' => 'featured',
+                'fields'   => 'slugs',
+                'terms'    => [ 'featured' ],
+            ],
         ];
 
-        return $builder->taxonomy( $featured );
+        return $builder->where( 'tax_query', $tax_query );
     }
 }
 ```
