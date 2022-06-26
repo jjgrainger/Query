@@ -1,4 +1,4 @@
-# WordPress Query Builder v0.1.0
+# WordPress Query Builder v0.2.0
 
 > A fluent interface for creating WordPress Queries
 
