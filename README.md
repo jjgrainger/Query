@@ -1,4 +1,4 @@
-# WordPress Query Builder v0.1.0
+# WordPress Query Builder v0.2.0
 
 > A fluent interface for creating WordPress Queries
 
@@ -57,13 +57,15 @@ class FeaturedPostsQuery extends Query
     public function setup( Builder $builder ): Builder
     {
         // Setup a tax_query for posts with the 'featured' term.
-        $featured = [
-            'taxonomy' => 'featured',
-            'fields'   => 'slugs',
-            'terms'    => [ 'featured' ],
+        $tax_query = [
+            [
+                'taxonomy' => 'featured',
+                'fields'   => 'slugs',
+                'terms'    => [ 'featured' ],
+            ],
         ];
 
-        return $builder->taxonomy( $featured );
+        return $builder->where( 'tax_query', $tax_query );
     }
 }
 ```
@@ -88,6 +90,44 @@ $query = new Featured( $args );
 
 // Modify the query and get the WP_Query object.
 $results = $query->limit( 3 )->get();
+```
+
+### Custom Scopes
+
+Custom scopes can be added to the global `Query` using the static `addScope` method. One of the simplest ways to add a scope is with a closure.
+
+```php
+// Create a new scope with a closure.
+Query::addScope( 'events', function( Builder $builder ) {
+    return $builder->where( 'post_type', 'event' );
+} );
+
+// Call the scope when needed.
+$results = Query::events()->limit( 3 );
+```
+
+#### Custom Scope Classes
+
+Custom scope classes can be added to the global `Query`. The custom scope class will need to implement the `Scope` interface and contain the required `apply` method.
+The `apply` method should accept the query `Builder` as the first argument and any optional arguments passed via the scope.
+Once added to the `Query` class the scope will be available by the class name with the first letter lowecase.
+
+```php
+// Create a custom scope class.
+use Query\Scope;
+use Query\Builder;
+
+class PostID implements Scope {
+    public function apply( Builder $builder, $id = null ) {
+        return $builder->where( 'p', $id );
+    }
+}
+
+// Add the scope to the Query.
+Query::addScope( new PostID );
+
+// Use the scope in the Query.
+$results = Query::postID( 123 )->get();
 ```
 
 ## Notes

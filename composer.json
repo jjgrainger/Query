@@ -15,6 +15,11 @@
             "Query\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Query\\Tests\\": "tests/"
+        }
+    },
     "require": {
         "php": ">=7.2"
     },

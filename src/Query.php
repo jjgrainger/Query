@@ -3,39 +3,13 @@
 namespace Query;
 
 use Query\Builder;
+use Query\Concerns\BootsTraits;
 use Query\Concerns\HasScopes;
+use Query\Concerns\QueriesPosts;
 
 class Query
 {
-    use HasScopes;
-
-    /**
-     * Scopes available to the query.
-     *
-     * @var array
-     */
-    protected $scopes = [
-        \Query\Scopes\Author::class,
-        \Query\Scopes\AuthorIn::class,
-        \Query\Scopes\AuthorNotIn::class,
-        \Query\Scopes\Comments::class,
-        \Query\Scopes\Meta::class,
-        \Query\Scopes\Order::class,
-        \Query\Scopes\OrderBy::class,
-        \Query\Scopes\Page::class,
-        \Query\Scopes\ParentIn::class,
-        \Query\Scopes\ParentNotIn::class,
-        \Query\Scopes\Password::class,
-        \Query\Scopes\Post::class,
-        \Query\Scopes\PostIn::class,
-        \Query\Scopes\PostNotIn::class,
-        \Query\Scopes\PostParent::class,
-        \Query\Scopes\PostStatus::class,
-        \Query\Scopes\PostType::class,
-        \Query\Scopes\PostsPerPage::class,
-        \Query\Scopes\Search::class,
-        \Query\Scopes\Taxonomy::class,
-    ];
+    use BootsTraits, HasScopes, QueriesPosts;
 
     /**
      * The Query Builder object.
@@ -61,8 +35,13 @@ class Query
      */
     public function __construct(array $query = [])
     {
-        $this->buildScopes($this->scopes);
+        // Boot traits.
+        $this->bootTraits();
 
+        // Build scopes.
+        $this->buildScopes();
+
+        // Setup the Builder instances.
         $this->builder = $this->setup(new Builder($query));
     }
 
